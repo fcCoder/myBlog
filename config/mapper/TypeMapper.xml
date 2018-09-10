@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.blog.dao.TypeDao">
+	<!-- 接口中getTypeById 具体实现-->
+	<select id="getTypeById" parameterType="int" resultType="ssm.blog.entity.Type">
+		select * from t_type where id=#{id}
+	</select>
+	<!-- 接口中getTypeByName 具体实现-->
+	<select id="getTypeByName" parameterType="String" resultType="ssm.blog.entity.Type">
+		select * from t_type where typeName=#{name}
+	</select>
+	<!-- 接口中getAllType 具体实现-->
+	<select id="getAllType" resultType="ssm.blog.entity.Type">
+		select * from t_type
+	</select>
+	<!-- 接口中getTypeByBlogger具体实现-->
+	<select id="getTypeByBlogger" parameterType="int" resultType="ssm.blog.entity.Type">
+		select * from t_type where id in 
+		(select type_id from t_blog where blogger_id=#{bloggerId})
+	</select>
+	<!-- 接口中addType 具体实现-->
+	<insert id="addType" parameterType="ssm.blog.entity.Type">
+		insert into t_type (typeName) values (#{typeName})
+	</insert>
+	<!-- 接口中deleteType 具体实现-->
+	<delete id="deleteType" parameterType="int">
+		delete from t_type where id=#{id}
+	</delete>
+	<!-- 接口中updateType 具体实现-->
+	<update id="updateType" parameterType="ssm.blog.entity.Type">
+		update t_type set typeName=#{typeName} where id=#{id}
+	</update>
+</mapper>

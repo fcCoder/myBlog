@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.blog.dao.BloggerDao">
+  
+  	 <!--
+        返回结果映射
+        如果开启驼峰命名转换且命名规范该段代码可以不写
+        因为配置别名 所以type属性使用的是mybatis-conf中的别名
+        -->
+    <resultMap type="Blogger" id="BloggerResult">
+        <id property="id" column="id"/>
+        <result property="userName" column="username"/>
+        <result property="password" column="password"/>
+        <result property="sex" column="sex"/>
+        <result property="nickName" column="nickname"/>
+        <result property="sign" column="sign"/>
+        <result property="imageName" column="imagename"/>
+         <result property="age" column="age"/>
+    </resultMap>
+    <!--  定义字段集合 -->
+    <!-- <sql id="BloggerColumns">
+        id,username,password,nickname,sign,imagename
+    </sql> -->
+    <!-- 接口中doRegister 具体实现-->
+    <select id="doRegister" parameterType="String" resultMap="BloggerResult">
+    	select * from t_blogger where nickname=#{nickname}
+    </select>
+    <!-- 接口中doLogin 具体实现-->
+    <select id="doLogin" resultMap="BloggerResult">
+    	select * from t_blogger where username=#{username} and password=#{password}
+    </select>
+    <!-- 接口中getBloggerData 具体实现-->
+    <select id="getBloggerData" parameterType="int" resultMap="BloggerResult">
+            select * from t_blogger where id = #{id}
+    </select>
+    <!-- 接口中 updateBlogger具体实现-->
+    <update id="updateBlogger" parameterType="ssm.blog.entity.Blogger" >
+    	update t_blogger set username=#{userName},password=#{password},age=#{age},sex=#{sex},nickname=#{nickName},sign=#{sign},imagename=#{imageName} where id=#{id}
+    </update>
+    <!-- 接口中 addBlogger具体实现-->
+    <insert id="addBlogger" parameterType="ssm.blog.entity.Blogger">
+    	insert into t_blogger (username,password,age,sex,nickname,sign,imagename) values (#{userName},#{password},#{age},#{sex},#{nickName},#{sign},#{imageName})
+    </insert>
+    <!-- 接口中 deleteBlogger具体实现-->
+    <delete id="deleteBlogger" parameterType="int">
+    	delete from t_blogger where id=#{id}
+    </delete>
+    
+</mapper>

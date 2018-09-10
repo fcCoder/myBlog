@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.blog.dao.BlogDao">
+	 <!--
+        返回结果映射
+        如果开启驼峰命名转换且命名规范该段代码可以不写
+        因为配置别名 所以type属性使用的是mybatis-conf中的别名
+        -->
+    <resultMap type="Blog" id="BlogResult">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="zanCount" column="zanCount"/>
+        <result property="readCount" column="readCount"/>
+        <result property="releaseDate" column="releaseDate"/>
+        <result property="clickHit" column="clickHit"/>
+        <result property="content" column="content"/>
+        <result property="bloggerId" column="blogger_id"/>
+        <result property="typeId" column="type_id"/>
+    </resultMap>
+    <!-- 接口中selectLastBlogId 具体实现-->
+    <select id="selectLastBlogId" resultType="int">
+    	SELECT LAST_INSERT_ID()
+    </select>
+    <!-- 接口中selectBlogCount 具体实现-->
+    <select id="selectBlogCount" resultType="int">
+    	select count(id) from t_blog
+    </select>
+    <!-- 接口中selectBlogByPage 具体实现-->
+    <select id="selectBlogByPage" resultMap="BlogResult">
+    	select * from t_blog order by id desc limit #{startRow},#{pageSize}
+    </select>
+    <!-- 接口中selectMyBlogByPage 具体实现-->
+    <select id="selectMyBlogByPage" resultMap="BlogResult">
+    	select * from t_blog where blogger_id=#{bloggerId} order by id desc limit #{startRow},#{pageSize}
+    </select>
+    <!-- 接口中selectBlogByReadCount 具体实现-->
+    <select id="selectBlogByReadCount" resultMap="BlogResult">
+    	select * from t_blog order by readCount desc limit 0,10
+    </select>
+	<!-- 接口中selectBlogByBlogger 具体实现-->
+	<select id="selectBlogByBlogger" parameterType="int" resultMap="BlogResult">
+		select * from t_blog where blogger_id=#{bloggerId} order by id desc
+	</select>
+	<!-- 接口中selectBlogByType 具体实现-->
+	<select id="selectBlogByType" parameterType="int" resultMap="BlogResult">
+		select * from t_blog where type_id=#{typeId} order by id desc
+	</select>
+	<!-- 接口中selectBlogByTag 具体实现-->
+	<select id="selectBlogByTag" parameterType="int" resultMap="BlogResult">
+		select * from t_blog where id in 
+		(select blog_id from t_blogTag where tag_id=#{tagId}) order by id desc
+	</select>
+	
+	<!-- 接口中selectBlogByTag 具体实现-->
+	<select id="selectBlogById" parameterType="int" resultMap="BlogResult">
+		select * from t_blog where id=#{id} order by id desc
+	</select>
+	<!-- 接口中addBlog 具体实现-->
+	<insert id="addBlog" parameterType="ssm.blog.entity.Blog">
+		insert into t_blog (title,readCount,zanCount,releaseDate,clickHit,content,blogger_id,type_id) values (#{title},#{readCount},#{zanCount},#{releaseDate},#{clickHit},#{content},#{bloggerId},#{typeId})
+	</insert>
+	<!-- 接口中updateBlog 具体实现-->
+	<update id="updateBlog" parameterType="ssm.blog.entity.Blog">
+		update t_blog set title=#{title},content=#{content},type_id=#{typeId} where id=#{id}
+	</update>
+	<!-- 接口中deleteBlog 具体实现-->
+	<delete id="deleteBlog" parameterType="int">
+		delete from t_blog where id=#{id}
+	</delete>
+	<!-- 接口中updateClickHit 具体实现-->
+	<update id="updateClickHit">
+		update t_blog set clickHit=#{clickHit} where id=#{id}
+	</update>
+	<!-- 接口中updateReadCount 具体实现-->
+	<update id="updateReadCount">
+		update t_blog set readCount=#{readCount} where id=#{id}
+	</update>
+	<!-- 接口中updateZanCount 具体实现-->
+	<update id="updateZanCount">
+		update t_blog set zanCount=#{zanCount} where id=#{id}
+	</update>
+</mapper>

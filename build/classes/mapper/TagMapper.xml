@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.blog.dao.TagDao">
+	<!--
+        返回结果映射
+        如果开启驼峰命名转换且命名规范该段代码可以不写
+        因为配置别名 所以type属性使用的是mybatis-conf中的别名
+        -->
+    <resultMap type="Tag" id="TagResult">
+        <id property="id" column="id"/>
+        <result property="tagName" column="tagName"/>
+    </resultMap>
+	<!-- 接口中getAllTag 具体实现-->
+	<select id="getAllTag" resultType="ssm.blog.entity.Tag">
+		select * from t_tag
+	</select>
+	<!-- 接口中getTagByBlogger具体实现-->
+	<select id="getTagByBlogger" parameterType="int" resultMap="TagResult">
+		select * from t_tag where id in 
+		(select tag_id from t_blogTag where blog_id in (select id from t_blog where blogger_id=#{bloggerId}))
+	</select>
+	<!-- 接口中getTagByBlog具体实现-->
+	<select id="getTagByBlog" parameterType="int" resultMap="TagResult">
+		select * from t_tag where id in 
+		(select tag_id from t_blogTag where blog_id=#{blogId})
+	</select>
+	<!-- 接口中getTagByName具体实现-->
+	<select id="getTagByName" parameterType="String" resultMap="TagResult">
+		select * from t_tag where tagName=#{tagName}
+	</select>
+	<!-- 接口中addTag具体实现-->
+	<insert id="addTag" parameterType="ssm.blog.entity.Tag">
+		insert into t_tag (tagName) values (#{tagName})
+	</insert>
+	<!-- 接口中deleteTag 具体实现-->
+	<delete id="deleteTag" parameterType="int">
+		delete from t_tag where id=#{id}
+	</delete>
+	<!-- 接口中updateTag 具体实现-->
+	<update id="updateTag" parameterType="ssm.blog.entity.Tag">
+		update t_tag set tagName=#{tagName} where id=#{id}
+	</update>
+</mapper>

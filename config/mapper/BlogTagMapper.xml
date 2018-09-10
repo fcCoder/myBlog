@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.blog.dao.BlogTagDao">
+	<!--
+        返回结果映射
+        如果开启驼峰命名转换且命名规范该段代码可以不写
+        因为配置别名 所以type属性使用的是mybatis-conf中的别名
+        -->
+    <resultMap type="BlogTag" id="BlogTagResult">
+        <id property="id" column="id"/>
+        <result property="blogId" column="blog_id"/>
+        <result property="tagId" column="tag_id"/>
+    </resultMap>
+    <!-- 接口中getTagId 具体实现-->
+    <select id="getTagId" parameterType="String" resultType="int">
+    	select id from t_tag where tagName=#{tagName}
+    </select>
+    <!-- 接口中addTag 具体实现-->
+    <insert id="addTag" parameterType="ssm.blog.entity.BlogTag">
+    	insert into t_blogTag (blog_id,tag_id) values (#{blogId},#{tagId})
+    </insert>
+    <!-- 接口中deleteTag 具体实现-->
+    <delete id="deleteTag">
+    	delete from t_blogTag where blog_id=#{blogId} and tag_id=#{tagId}
+    </delete>
+    <!-- 接口中deleteTagByBlogId 具体实现-->
+    <delete id="deleteTagByBlogId" parameterType="int">
+    	delete from t_blogTag where blog_id=#{blogId}
+    </delete>
+    <!-- 接口中deleteTagByTagId 具体实现-->
+    <delete id="deleteTagByTagId" parameterType="int">
+    	delete from t_blogTag where tag_id=#{tagId}
+    </delete>
+</mapper>
