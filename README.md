@@ -6,5 +6,5 @@
   本项目采用了SSM框架进行开发，maven管理jar包，数据存储使用了关系型数据库MySQL。页面多处使用ajax实现局部刷新，利用模糊查询进行关键字搜索，并筛
   选出阅读排行榜。<br>
 项目功能展示：<br>
-1.登录<br>![Image text](https://github.com/fcCoder/myBlog/blob/master/image/login.png)
+1.登录<br>![Image text](https://github.com/fcCoder/myBlog/blob/master/image/login.png)<br>
 2.首页显示用户信息<br>![Image text](https://github.com/fcCoder/myBlog/blob/master/image/bloggerMassage.png)
