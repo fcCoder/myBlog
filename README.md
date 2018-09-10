@@ -7,3 +7,4 @@
   选出阅读排行榜。<br>
 项目功能展示：<br>
 1.登录<br>![Image text](https://github.com/fcCoder/myBlog/blob/master/image/login.png)
+2.首页显示用户信息<br>![Image text](https://github.com/fcCoder/myBlog/blob/master/image/bloggerMassage.png)
